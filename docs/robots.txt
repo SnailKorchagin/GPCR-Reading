@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://snailkorchagin.github.io/GPCR-Reading/sitemap.xml
