@@ -84,11 +84,12 @@ function page({ title, description, body, depth = 0, path = "" }) {
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="${prefix}index.html"><span>GPCR · Great Proletarian Cultural Revolution</span><b>歌未竟，东方白</b></a>
-    <a class="github" href="https://github.com/SnailKorchagin/GPCR-Reading">GitHub</a>
+    <div><a href="${prefix}index.html">GPCR 阅读文库</a>${path === "preface/" ? " → 序言" : ""}</div>
+    <a href="https://github.com/SnailKorchagin/GPCR-Reading">GitHub</a>
   </header>
+  <hr class="site-rule">
   ${body}
-  <footer><p>个人原创写作 · 作者 小蜗H快跑</p><p>转载请注明作者及原文链接</p></footer>
+  <footer><hr><p>个人原创写作　作者：小蜗H快跑　·　转载请注明作者及原文链接</p></footer>
 </body>
 </html>`;
 }
@@ -101,15 +102,14 @@ await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
 const prefaceBody = `<main class="article-shell"><article>
-  <nav class="archive-path"><a href="../index.html">《贺新郎·读史》新解</a><span>›</span><span>序言</span></nav>
-  <header class="article-header"><p class="eyebrow">序言</p><h1>为什么写这九章</h1><p class="subtitle">《贺新郎·读史》新解</p><p class="byline">小蜗H快跑</p></header>
+  <header class="article-header"><h1>序言</h1><p class="subtitle">《贺新郎·读史》新解</p><p class="byline">小蜗H快跑</p></header>
   <figure class="chapter-image preface-image"><img src="../assets/preface-hero.png" alt="劳动的人们穿过历史，走向东方晨光"><figcaption>从历史深处，走向东方白</figcaption></figure>
   <div class="prose">${markdown(prefaceSource)}</div>
-  <aside class="forthcoming"><p class="eyebrow">九章连载</p><h2>正文将陆续发布</h2><p>序言先行。第一章《人猿相揖别》及后续篇章完成公开校订后，将在这里继续更新。</p></aside>
+  <aside class="forthcoming"><strong>说明：</strong>九章正文完成公开校订后，将在这里陆续更新。</aside>
 </article></main>`;
 await mkdir(join(out, "preface"), { recursive: true });
 await writeFile(join(out, "preface", "index.html"), page({
-  title: "序言——为什么写这九章",
+  title: "序言",
   description: "这组原创文章的写作缘起、问题意识和九章结构。",
   body: prefaceBody,
   depth: 1,
@@ -117,12 +117,13 @@ await writeFile(join(out, "preface", "index.html"), page({
 }));
 
 const indexBody = `<main>
-  <section class="hero">
-    <div class="hero-copy"><p class="eyebrow">序言 · 作者 小蜗H快跑</p><h1>《贺新郎·读史》新解</h1><p class="lead">从“人猿相揖别”到“歌未竟，东方白”：从经典原著出发，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p><div class="hero-actions"><a class="button" href="preface/index.html">阅读序言</a><span class="serial-note">九章正文 · 陆续发布</span></div></div>
-    <figure class="hero-art"><img src="assets/preface-hero.png" alt="劳动的人们穿过历史，走向东方晨光"><figcaption>序言 · 为什么写这九章</figcaption></figure>
+  <section class="archive-home">
+    <header class="article-header"><h1>《贺新郎·读史》新解</h1><p class="byline">小蜗H快跑</p></header>
+    <p class="introduction">这是一组围绕《家庭、私有制和国家的起源》与《贺新郎·读史》写作的原创阅读注解。从“人猿相揖别”到“歌未竟，东方白”，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p>
+    <h2>目录</h2>
+    <ul class="archive-list"><li><a href="preface/index.html">序言</a><span>《贺新郎·读史》新解的写作缘起与问题意识</span></li></ul>
+    <p class="publication-note">九章正文完成公开校订后陆续发布。</p>
   </section>
-  <section class="statement"><p>这不是转载或资料汇编，而是小蜗H快跑围绕《家庭、私有制和国家的起源》与《贺新郎·读史》写作的一组原创阅读注解。现在先发布序言，正文九章将陆续公开。 <a href="preface/index.html">阅读序言 →</a></p></section>
-  <section class="arc"><p>人的形成</p><span>→</span><p>原始共同体</p><span>→</span><p>生产力与剩余</p><span>→</span><p>家庭与财产</p><span>→</span><p>私有制与阶级</p><span>→</span><p>国家与文明</p><span>→</span><p>历史主体与未来</p></section>
 </main>`;
 
 await writeFile(join(out, "index.html"), page({ title: "首页", description: "《贺新郎·读史》新解：一组关于劳动、家庭、私有制、阶级、国家与人的解放的原创文章。", body: indexBody }));
