@@ -101,7 +101,8 @@ await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
 const prefaceBody = `<main class="article-shell"><article>
-  <header class="article-header"><p class="eyebrow">序言 · 首发</p><h1>为什么写这九章</h1><p class="subtitle">《贺新郎·读史》新解</p><p class="byline">作者 · 小蜗H快跑</p></header>
+  <nav class="archive-path"><a href="../index.html">《贺新郎·读史》新解</a><span>›</span><span>序言</span></nav>
+  <header class="article-header"><p class="eyebrow">序言</p><h1>为什么写这九章</h1><p class="subtitle">《贺新郎·读史》新解</p><p class="byline">小蜗H快跑</p></header>
   <figure class="chapter-image preface-image"><img src="../assets/preface-hero.png" alt="劳动的人们穿过历史，走向东方晨光"><figcaption>从历史深处，走向东方白</figcaption></figure>
   <div class="prose">${markdown(prefaceSource)}</div>
   <aside class="forthcoming"><p class="eyebrow">九章连载</p><h2>正文将陆续发布</h2><p>序言先行。第一章《人猿相揖别》及后续篇章完成公开校订后，将在这里继续更新。</p></aside>
@@ -117,7 +118,7 @@ await writeFile(join(out, "preface", "index.html"), page({
 
 const indexBody = `<main>
   <section class="hero">
-    <div class="hero-copy"><p class="eyebrow">序言首发 · 作者 小蜗H快跑</p><h1>《贺新郎·读史》新解</h1><p class="lead">从“人猿相揖别”到“歌未竟，东方白”：从经典原著出发，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p><div class="hero-actions"><a class="button" href="preface/index.html">阅读序言</a><span class="serial-note">九章正文 · 陆续发布</span></div></div>
+    <div class="hero-copy"><p class="eyebrow">序言 · 作者 小蜗H快跑</p><h1>《贺新郎·读史》新解</h1><p class="lead">从“人猿相揖别”到“歌未竟，东方白”：从经典原著出发，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p><div class="hero-actions"><a class="button" href="preface/index.html">阅读序言</a><span class="serial-note">九章正文 · 陆续发布</span></div></div>
     <figure class="hero-art"><img src="assets/preface-hero.png" alt="劳动的人们穿过历史，走向东方晨光"><figcaption>序言 · 为什么写这九章</figcaption></figure>
   </section>
   <section class="statement"><p>这不是转载或资料汇编，而是小蜗H快跑围绕《家庭、私有制和国家的起源》与《贺新郎·读史》写作的一组原创阅读注解。现在先发布序言，正文九章将陆续公开。 <a href="preface/index.html">阅读序言 →</a></p></section>

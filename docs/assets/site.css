@@ -51,23 +51,27 @@ img { display: block; max-width: 100%; }
 .arc p { margin: 0; }
 .arc span { color: var(--red); }
 
-.article-shell { width: min(100% - 40px, 860px); margin: auto; }
-.article-header { padding: 90px 0 48px; text-align: center; }
-.article-header h1 { margin: 18px 0 12px; font-size: clamp(40px, 7vw, 68px); line-height: 1.18; letter-spacing: -.025em; }
+.article-shell { width: min(100% - 40px, 790px); margin: auto; }
+.archive-path { display: flex; gap: 9px; align-items: center; padding: 30px 0 18px; border-bottom: 1px solid var(--line); color: var(--muted); font: 12px var(--sans); letter-spacing: .05em; }
+.archive-path a { text-underline-offset: 3px; }
+.article-header { padding: 60px 0 38px; text-align: center; border-bottom: 3px double var(--line); }
+.article-header h1 { margin: 16px 0 10px; font-size: clamp(38px, 6vw, 56px); line-height: 1.2; letter-spacing: -.02em; }
 .subtitle { margin: 0 auto 24px; color: var(--muted); font-size: clamp(20px, 3vw, 28px); }
 .byline { margin-top: 28px; color: var(--muted); }
-.chapter-image { margin: 0 0 64px; }
+.chapter-image { margin: 38px 0 64px; }
 .chapter-image img { width: 100%; max-height: 540px; object-fit: cover; object-position: center 20%; }
 .preface-image { margin-top: 8px; }
 .preface-image figcaption { padding-top: 12px; color: var(--muted); text-align: center; font: 12px var(--sans); letter-spacing: .1em; }
 .forthcoming { margin: 84px 0; padding: 34px 38px; border: 1px solid var(--line); background: rgba(255,255,255,.28); }
 .forthcoming h2 { margin: 10px 0 12px; font-size: 28px; }
 .forthcoming p:last-child { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.8; }
-.prose { font-size: 18px; line-height: 2; letter-spacing: .01em; }
-.prose p { margin: 0 0 1.5em; }
+.prose { font-size: 18px; line-height: 2.08; letter-spacing: .01em; text-align: justify; }
+.prose > p { margin: 0 0 1.25em; text-indent: 2em; }
+.prose strong { font-weight: 700; text-decoration: underline; text-decoration-color: rgba(143,47,36,.35); text-decoration-thickness: 3px; text-underline-offset: 3px; }
+.prose em { color: #50483d; }
 .prose h2 { margin: 2.8em 0 1em; padding-top: .8em; border-top: 1px solid var(--line); font-size: 30px; line-height: 1.45; }
 .prose h3 { margin: 2.3em 0 .8em; font-size: 23px; }
-.prose blockquote { margin: 2em 0; padding: 18px 24px; border-left: 3px solid var(--red); background: rgba(255,255,255,.36); color: #4f493f; }
+.prose blockquote { width: 88%; margin: 2.2em auto; padding: 22px 28px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: #3f392f; font-size: 19px; text-align: left; }
 .prose blockquote p { margin: 0; }
 .prose ol { margin: 1.5em 0 2em; padding-left: 1.6em; }
 .prose li { padding-left: .4em; margin-bottom: .6em; }
