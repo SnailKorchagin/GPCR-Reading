@@ -89,7 +89,7 @@ function page({ title, description, body, depth = 0, path = "" }) {
   </header>
   <hr class="site-rule">
   ${body}
-  <footer><hr><p>个人原创写作　作者：小蜗H快跑　·　转载请注明作者及原文链接</p></footer>
+  <footer><hr><p>GPCR 阅读文库</p></footer>
 </body>
 </html>`;
 }
@@ -102,7 +102,7 @@ await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
 const prefaceBody = `<main class="article-shell"><article>
-  <header class="article-header"><h1>序言</h1><p class="subtitle">《贺新郎·读史》新解</p><p class="byline">小蜗H快跑</p></header>
+  <header class="article-header"><h1>序言</h1><p class="subtitle">《贺新郎·读史》新解</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
   <figure class="chapter-image preface-image"><img src="../assets/preface-hero.png" alt="劳动的人们穿过历史，走向东方晨光"><figcaption>从历史深处，走向东方白</figcaption></figure>
   <div class="prose">${markdown(prefaceSource)}</div>
   <aside class="forthcoming"><strong>说明：</strong>九章正文完成公开校订后，将在这里陆续更新。</aside>
@@ -110,7 +110,7 @@ const prefaceBody = `<main class="article-shell"><article>
 await mkdir(join(out, "preface"), { recursive: true });
 await writeFile(join(out, "preface", "index.html"), page({
   title: "序言",
-  description: "这组原创文章的写作缘起、问题意识和九章结构。",
+  description: "这组文章的写作缘起、问题意识和九章结构。",
   body: prefaceBody,
   depth: 1,
   path: "preface/",
@@ -118,15 +118,17 @@ await writeFile(join(out, "preface", "index.html"), page({
 
 const indexBody = `<main>
   <section class="archive-home">
-    <header class="article-header"><h1>《贺新郎·读史》新解</h1><p class="byline">小蜗H快跑</p></header>
-    <p class="introduction">这是一组围绕《家庭、私有制和国家的起源》与《贺新郎·读史》写作的原创阅读注解。从“人猿相揖别”到“歌未竟，东方白”，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p>
+    <header class="article-header"><h1>《贺新郎·读史》新解</h1><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
+    <div class="introduction">
+      <p>这是一组围绕《家庭、私有制和国家的起源》与《贺新郎·读史》写作的阅读注解。从“人猿相揖别”到“歌未竟，东方白”，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p>
+      <p>这些文章从制度怎样产生、怎样取得历史根据、又怎样显露自身界限的问题出发。文章以经典原著和历史过程为主要线索，序言已经发布，九章正文将在校订后陆续更新。</p>
+    </div>
     <h2>目录</h2>
     <ul class="archive-list"><li><a href="preface/index.html">序言</a><span>《贺新郎·读史》新解的写作缘起与问题意识</span></li></ul>
-    <p class="publication-note">九章正文完成公开校订后陆续发布。</p>
   </section>
 </main>`;
 
-await writeFile(join(out, "index.html"), page({ title: "首页", description: "《贺新郎·读史》新解：一组关于劳动、家庭、私有制、阶级、国家与人的解放的原创文章。", body: indexBody }));
+await writeFile(join(out, "index.html"), page({ title: "首页", description: "《贺新郎·读史》新解：一组关于劳动、家庭、私有制、阶级、国家与人的解放的文章。", body: indexBody }));
 await writeFile(join(out, "404.html"), page({ title: "页面未找到", description: "页面未找到", body: '<main class="not-found"><p class="eyebrow">404</p><h1>这一页尚未写入历史</h1><a class="button" href="./index.html">返回首页</a></main>' }));
 await writeFile(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${baseUrl}/sitemap.xml\n`);
 await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url></urlset>`);

@@ -50,7 +50,8 @@ img { display: block; max-width: 100%; }
 .byline { margin: 0; font-size: 18px; font-weight: 700; line-height: 2; }
 
 .archive-home .article-header { padding-top: 34px; padding-bottom: 40px; }
-.introduction { margin: 0 30px 42px; text-indent: 2em; line-height: 2; text-align: justify; }
+.introduction { margin: 0 30px 42px; line-height: 2; text-align: justify; }
+.introduction p { margin: 0; text-indent: 2em; }
 .archive-home h2 {
   margin: 0 30px 12px;
   padding-bottom: 5px;

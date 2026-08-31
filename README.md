@@ -1,6 +1,6 @@
 # GPCR · 《贺新郎·读史》新解
 
-这是作者“小蜗H快跑”的个人原创写作项目。
+这是作者“小蜗H快跑”的个人写作项目，ChatGPT 参与资料梳理和文字整理。
 
 **GPCR** 是 **Great Proletarian Cultural Revolution** 的缩写。
 
