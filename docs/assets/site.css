@@ -27,6 +27,7 @@ img { display: block; max-width: 100%; }
 .hero h1 { margin: 20px 0 26px; max-width: 620px; font-size: clamp(48px, 7.2vw, 88px); line-height: 1.04; letter-spacing: -.035em; font-weight: 700; }
 .lead { max-width: 650px; font-size: clamp(19px, 2vw, 25px); line-height: 1.9; color: #4f493f; }
 .hero-actions { margin-top: 38px; display: flex; align-items: center; gap: 28px; font-family: var(--sans); }
+.serial-note { color: var(--muted); font-size: 13px; letter-spacing: .08em; }
 .button { display: inline-block; padding: 14px 22px; color: #fff; background: var(--red); text-decoration: none; font-family: var(--sans); font-size: 14px; letter-spacing: .06em; }
 .text-link { text-underline-offset: 5px; }
 .hero-art { margin: 0; position: relative; }
@@ -57,6 +58,11 @@ img { display: block; max-width: 100%; }
 .byline { margin-top: 28px; color: var(--muted); }
 .chapter-image { margin: 0 0 64px; }
 .chapter-image img { width: 100%; max-height: 540px; object-fit: cover; object-position: center 20%; }
+.preface-image { margin-top: 8px; }
+.preface-image figcaption { padding-top: 12px; color: var(--muted); text-align: center; font: 12px var(--sans); letter-spacing: .1em; }
+.forthcoming { margin: 84px 0; padding: 34px 38px; border: 1px solid var(--line); background: rgba(255,255,255,.28); }
+.forthcoming h2 { margin: 10px 0 12px; font-size: 28px; }
+.forthcoming p:last-child { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.8; }
 .prose { font-size: 18px; line-height: 2; letter-spacing: .01em; }
 .prose p { margin: 0 0 1.5em; }
 .prose h2 { margin: 2.8em 0 1em; padding-top: .8em; border-top: 1px solid var(--line); font-size: 30px; line-height: 1.45; }
