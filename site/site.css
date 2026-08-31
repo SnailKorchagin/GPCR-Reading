@@ -60,9 +60,11 @@ img { display: block; max-width: 100%; }
   font-weight: 700;
 }
 .archive-list { margin: 0 30px; padding: 0; list-style: none; }
-.archive-list li { display: flex; gap: 18px; padding: 7px 0; line-height: 1.8; }
-.archive-list li a { min-width: 80px; }
-.archive-list li span { color: #444; }
+.archive-list li { display: grid; grid-template-columns: 86px 1fr 62px; gap: 18px; padding: 7px 0; border-bottom: 1px dotted #ccc; line-height: 1.8; }
+.archive-list .entry-number { color: #222; }
+.archive-list .entry-title { color: #333; }
+.archive-list .status { color: #777; font-size: 14px; text-align: right; }
+.archive-list .published { color: #444; }
 .publication-note { margin: 28px 30px; color: #555; font-size: 15px; }
 
 .chapter-image { width: 720px; margin: 0 auto 44px; }
@@ -116,8 +118,10 @@ footer p { margin: 8px 0 0; }
   .article-header { padding: 24px 0 34px; }
   .article-header h1 { font-size: 24px; letter-spacing: 1px; }
   .introduction, .archive-home h2, .archive-list, .publication-note { margin-left: 0; margin-right: 0; }
-  .archive-list li { display: block; }
-  .archive-list li span { display: block; font-size: 15px; }
+  .archive-list li { grid-template-columns: 64px 1fr; gap: 5px 10px; padding: 9px 0; }
+  .archive-list .entry-number { grid-row: 1 / span 2; }
+  .archive-list .entry-title, .archive-list li a { font-size: 16px; }
+  .archive-list .status { grid-column: 2; text-align: left; }
   .chapter-image { width: 100%; margin-bottom: 32px; }
   .prose { line-height: 1.9; }
   .prose blockquote { margin-left: 1.5em; margin-right: 1.5em; }
