@@ -63,7 +63,7 @@ function markdown(source) {
   return output.join("\n");
 }
 
-function page({ title, description, body, depth = 0, path = "" }) {
+function page({ title, description, body, depth = 0, path = "", image = "preface-hero.png" }) {
   const prefix = depth ? "../".repeat(depth) : "./";
   const canonical = `${baseUrl}/${path}`;
   const location = path === "preface/" ? " → 序言" : path === "chapters/01/" ? " → 第一章" : "";
@@ -79,7 +79,7 @@ function page({ title, description, body, depth = 0, path = "" }) {
   <meta property="og:title" content="${escapeHtml(title)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="${baseUrl}/assets/preface-hero.png">
+  <meta property="og:image" content="${baseUrl}/assets/${image}">
   <link rel="canonical" href="${canonical}">
   <link rel="stylesheet" href="${prefix}assets/site.css">
 </head>
@@ -99,6 +99,7 @@ await rm(out, { recursive: true, force: true });
 await mkdir(join(out, "assets"), { recursive: true });
 await copyFile(join(root, "site", "site.css"), join(out, "assets", "site.css"));
 await copyFile(join(root, "site", "preface-hero.png"), join(out, "assets", "preface-hero.png"));
+await copyFile(join(root, "site", "chapter-one-structure.png"), join(out, "assets", "chapter-one-structure.png"));
 await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
@@ -121,6 +122,7 @@ const chapterOneSource = await readFile(join(root, "第一章｜人猿相揖别�
 const chapterOneContent = chapterOneSource.split("\n").slice(1).join("\n");
 const chapterOneBody = `<main class="article-shell"><article>
   <header class="article-header"><h1>第一章｜人猿相揖别</h1><p class="subtitle">人是怎样成为人的？</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
+  <figure class="chapter-image"><img src="../../assets/chapter-one-structure.png" alt="第一章内容与架构：从自然前提、劳动、工具和语言走向共同体"><figcaption>第一章的主要内容与论证结构</figcaption></figure>
   <div class="prose">${markdown(chapterOneContent)}</div>
   <aside class="forthcoming"><a href="../../preface/index.html">上一篇：序言</a>　｜　第二章完成公开校订后发布。</aside>
 </article></main>`;
@@ -131,6 +133,7 @@ await writeFile(join(out, "chapters", "01", "index.html"), page({
   body: chapterOneBody,
   depth: 2,
   path: "chapters/01/",
+  image: "chapter-one-structure.png",
 }));
 
 const indexBody = `<main>
