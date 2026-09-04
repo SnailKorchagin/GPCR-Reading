@@ -100,6 +100,7 @@ await mkdir(join(out, "assets"), { recursive: true });
 await copyFile(join(root, "site", "site.css"), join(out, "assets", "site.css"));
 await copyFile(join(root, "site", "preface-hero.png"), join(out, "assets", "preface-hero.png"));
 await copyFile(join(root, "site", "chapter-one-structure.png"), join(out, "assets", "chapter-one-structure.png"));
+await copyFile(join(root, "site", "chapter-one-wechat-portrait.png"), join(out, "assets", "chapter-one-wechat-portrait.png"));
 await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
@@ -122,8 +123,9 @@ const chapterOneSource = await readFile(join(root, "第一章｜人猿相揖别�
 const chapterOneContent = chapterOneSource.split("\n").slice(1).join("\n");
 const chapterOneBody = `<main class="article-shell"><article>
   <header class="article-header"><h1>第一章｜人猿相揖别</h1><p class="subtitle">人是怎样成为人的？</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
-  <figure class="chapter-image"><img src="../../assets/chapter-one-structure.png" alt="第一章内容与架构：从自然前提、劳动、工具和语言走向共同体"><figcaption>第一章的主要内容与论证结构</figcaption></figure>
-  <div class="prose">${markdown(chapterOneContent)}</div>
+  <figure class="chapter-image chapter-structure-image"><picture><source media="(max-width: 700px)" srcset="../../assets/chapter-one-wechat-portrait.png"><img src="../../assets/chapter-one-structure.png" alt="第一章内容与架构：从自然前提、劳动、工具和语言走向共同体"></picture><figcaption>第一章的主要内容与论证结构　·　<a href="../../assets/chapter-one-wechat-portrait.png">打开朋友圈竖版图</a></figcaption></figure>
+  <div class="text-edition-heading"><span>正文</span></div>
+  <div class="prose marxists-prose">${markdown(chapterOneContent)}</div>
   <aside class="forthcoming"><a href="../../preface/index.html">上一篇：序言</a>　｜　第二章完成公开校订后发布。</aside>
 </article></main>`;
 await mkdir(join(out, "chapters", "01"), { recursive: true });
