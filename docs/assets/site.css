@@ -70,6 +70,7 @@ img { display: block; max-width: 100%; }
 .chapter-image { width: 720px; margin: 0 auto 44px; }
 .chapter-structure-image { width: 860px; }
 .chapter-image img { width: 100%; height: auto; }
+.chapter-image-link { display: block; }
 .chapter-image figcaption { padding-top: 4px; color: #555; text-align: center; font-size: 13px; line-height: 1.6; }
 
 .prose { line-height: 2; text-align: justify; }
@@ -119,6 +120,8 @@ img { display: block; max-width: 100%; }
   line-height: 1.9;
 }
 .marxists-prose > p { margin: 0; text-indent: 2em; }
+.marxists-prose strong { color: #000; font-weight: 700; }
+.marxists-prose em { color: #222; font-style: italic; }
 
 .forthcoming {
   margin: 44px 0 24px;
