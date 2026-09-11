@@ -103,6 +103,8 @@ await copyFile(join(root, "site", "chapter-one-structure.png"), join(out, "asset
 await copyFile(join(root, "site", "chapter-one-wechat-portrait-v3.png"), join(out, "assets", "chapter-one-wechat-portrait-v3.png"));
 await copyFile(join(root, "site", "chapter-one-wechat-portrait-v3.png"), join(out, "assets", "chapter-one-wechat-portrait.png"));
 await copyFile(join(root, "site", "chapter-two-structure-v1.png"), join(out, "assets", "chapter-two-structure-v1.png"));
+await copyFile(join(root, "site", "chapter-two-wechat-qrcode-v1.png"), join(out, "assets", "chapter-two-wechat-qrcode-v1.png"));
+await copyFile(join(root, "site", "chapter-two-wechat-qrcode-v1.png"), join(out, "assets", "chapter-two-wechat-portrait.png"));
 await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
@@ -144,7 +146,7 @@ const chapterTwoSource = await readFile(join(root, "第二章｜只几个石头�
 const chapterTwoContent = chapterTwoSource.split("\n").slice(1).join("\n");
 const chapterTwoBody = `<main class="article-shell"><article>
   <header class="article-header"><h1>第二章｜只几个石头磨过</h1><p class="subtitle">生产力低下时代的共同体</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
-  <figure class="chapter-image chapter-structure-image"><a class="chapter-image-link" href="../../assets/chapter-two-structure-v1.png"><img src="../../assets/chapter-two-structure-v1.png" alt="第二章内容与论证结构：生存条件、共同劳动、共同占有、氏族组织与公共事务"></a><figcaption>第二章的主要内容与论证结构　·　<a href="../../assets/chapter-two-structure-v1.png">打开横版大图</a></figcaption></figure>
+  <figure class="chapter-image chapter-structure-image"><a class="chapter-image-link" href="../../assets/chapter-two-structure-v1.png"><img src="../../assets/chapter-two-structure-v1.png" alt="第二章内容与论证结构：生存条件、共同劳动、共同占有、氏族组织与公共事务"></a><figcaption>第二章的主要内容与论证结构　·　<a href="../../assets/chapter-two-structure-v1.png">打开横版大图</a>　·　<a href="../../assets/chapter-two-wechat-qrcode-v1.png">下载朋友圈竖版图</a></figcaption></figure>
   <div class="text-edition-heading"><span>正文</span></div>
   <div class="prose marxists-prose">${markdown(chapterTwoContent)}</div>
   <aside class="forthcoming"><a href="../01/index.html">上一篇：第一章｜人猿相揖别</a>　｜　第三章完成公开校订后发布。</aside>
