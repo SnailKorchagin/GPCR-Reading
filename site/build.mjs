@@ -66,7 +66,7 @@ function markdown(source) {
 function page({ title, description, body, depth = 0, path = "", image = "preface-hero.png" }) {
   const prefix = depth ? "../".repeat(depth) : "./";
   const canonical = `${baseUrl}/${path}`;
-  const location = path === "preface/" ? " → 序言" : path === "chapters/01/" ? " → 第一章" : "";
+  const location = path === "preface/" ? " → 序言" : path === "chapters/01/" ? " → 第一章" : path === "chapters/02/" ? " → 第二章" : "";
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -102,6 +102,7 @@ await copyFile(join(root, "site", "preface-hero.png"), join(out, "assets", "pref
 await copyFile(join(root, "site", "chapter-one-structure.png"), join(out, "assets", "chapter-one-structure.png"));
 await copyFile(join(root, "site", "chapter-one-wechat-portrait-v3.png"), join(out, "assets", "chapter-one-wechat-portrait-v3.png"));
 await copyFile(join(root, "site", "chapter-one-wechat-portrait-v3.png"), join(out, "assets", "chapter-one-wechat-portrait.png"));
+await copyFile(join(root, "site", "chapter-two-structure-v1.png"), join(out, "assets", "chapter-two-structure-v1.png"));
 await writeFile(join(out, ".nojekyll"), "");
 
 const prefaceSource = await readFile(join(root, "《贺新郎 读史》新解.md"), "utf8");
@@ -127,7 +128,7 @@ const chapterOneBody = `<main class="article-shell"><article>
   <figure class="chapter-image chapter-structure-image"><a class="chapter-image-link" href="../../assets/chapter-one-structure.png"><img src="../../assets/chapter-one-structure.png" alt="第一章内容与架构：从自然前提、劳动、工具和语言走向共同体"></a><figcaption>第一章的主要内容与论证结构　·　<a href="../../assets/chapter-one-structure.png">打开横版大图</a>　·　<a href="../../assets/chapter-one-wechat-portrait-v3.png">下载朋友圈竖版图</a></figcaption></figure>
   <div class="text-edition-heading"><span>正文</span></div>
   <div class="prose marxists-prose">${markdown(chapterOneContent)}</div>
-  <aside class="forthcoming"><a href="../../preface/index.html">上一篇：序言</a>　｜　第二章完成公开校订后发布。</aside>
+  <aside class="forthcoming"><a href="../../preface/index.html">上一篇：序言</a>　｜　<a href="../02/index.html">下一篇：第二章｜只几个石头磨过</a></aside>
 </article></main>`;
 await mkdir(join(out, "chapters", "01"), { recursive: true });
 await writeFile(join(out, "chapters", "01", "index.html"), page({
@@ -139,18 +140,37 @@ await writeFile(join(out, "chapters", "01", "index.html"), page({
   image: "chapter-one-structure.png",
 }));
 
+const chapterTwoSource = await readFile(join(root, "第二章｜只几个石头磨过——生产力低下时代的共同体.md"), "utf8");
+const chapterTwoContent = chapterTwoSource.split("\n").slice(1).join("\n");
+const chapterTwoBody = `<main class="article-shell"><article>
+  <header class="article-header"><h1>第二章｜只几个石头磨过</h1><p class="subtitle">生产力低下时代的共同体</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
+  <figure class="chapter-image chapter-structure-image"><a class="chapter-image-link" href="../../assets/chapter-two-structure-v1.png"><img src="../../assets/chapter-two-structure-v1.png" alt="第二章内容与论证结构：生存条件、共同劳动、共同占有、氏族组织与公共事务"></a><figcaption>第二章的主要内容与论证结构　·　<a href="../../assets/chapter-two-structure-v1.png">打开横版大图</a></figcaption></figure>
+  <div class="text-edition-heading"><span>正文</span></div>
+  <div class="prose marxists-prose">${markdown(chapterTwoContent)}</div>
+  <aside class="forthcoming"><a href="../01/index.html">上一篇：第一章｜人猿相揖别</a>　｜　第三章完成公开校订后发布。</aside>
+</article></main>`;
+await mkdir(join(out, "chapters", "02"), { recursive: true });
+await writeFile(join(out, "chapters", "02", "index.html"), page({
+  title: "第二章｜只几个石头磨过——生产力低下时代的共同体",
+  description: "共同体最初不是自由选择，也不是道德理想，而是生产力低下条件下的生存形式。",
+  body: chapterTwoBody,
+  depth: 2,
+  path: "chapters/02/",
+  image: "chapter-two-structure-v1.png",
+}));
+
 const indexBody = `<main>
   <section class="archive-home">
     <header class="article-header"><h1>《贺新郎·读史》新解</h1><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
     <div class="introduction">
       <p>文章围绕《家庭、私有制和国家的起源》与《贺新郎·读史》展开。从“人猿相揖别”到“歌未竟，东方白”，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p>
-      <p>这些文章从制度怎样产生、怎样取得历史根据、又怎样显露自身界限的问题出发。文章以经典原著和历史过程为主要线索，序言与第一章已经发布，后续章节将在校订后陆续更新。</p>
+      <p>这些文章从制度怎样产生、怎样取得历史根据、又怎样显露自身界限的问题出发。文章以经典原著和历史过程为主要线索，序言、第一章与第二章已经发布，后续章节将在校订后陆续更新。</p>
     </div>
     <h2>目录</h2>
     <ul class="archive-list">
       <li><span class="entry-number">序言</span><a href="preface/index.html">《贺新郎·读史》新解的写作缘起与问题意识</a><span class="status published">已发布</span></li>
       <li><span class="entry-number">第一章</span><a href="chapters/01/index.html">人猿相揖别——人是怎样成为人的</a><span class="status published">已发布</span></li>
-      <li><span class="entry-number">第二章</span><span class="entry-title">只几个石头磨过——生产力低下时代的共同体</span><span class="status">待发布</span></li>
+      <li><span class="entry-number">第二章</span><a href="chapters/02/index.html">只几个石头磨过——生产力低下时代的共同体</a><span class="status published">已发布</span></li>
       <li><span class="entry-number">第三章</span><span class="entry-title">铜铁炉中翻火焰——生产力怎样撕开共同体</span><span class="status">待发布</span></li>
       <li><span class="entry-number">第四章</span><span class="entry-title">不过几千寒热——财产怎样进入家庭</span><span class="status">待发布</span></li>
       <li><span class="entry-number">第五章</span><span class="entry-title">人世难逢开口笑——私有制怎样创造阶级</span><span class="status">待发布</span></li>
@@ -165,5 +185,5 @@ const indexBody = `<main>
 await writeFile(join(out, "index.html"), page({ title: "首页", description: "《贺新郎·读史》新解：一组关于劳动、家庭、私有制、阶级、国家与人的解放的文章。", body: indexBody }));
 await writeFile(join(out, "404.html"), page({ title: "页面未找到", description: "页面未找到", body: '<main class="not-found"><p class="eyebrow">404</p><h1>这一页尚未写入历史</h1><a class="button" href="./index.html">返回首页</a></main>' }));
 await writeFile(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${baseUrl}/sitemap.xml\n`);
-await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url><url><loc>${baseUrl}/chapters/01/</loc></url></urlset>`);
-console.log(`Built the preface and chapter one release in ${out}`);
+await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url><url><loc>${baseUrl}/chapters/01/</loc></url><url><loc>${baseUrl}/chapters/02/</loc></url></urlset>`);
+console.log(`Built the preface and two chapter releases in ${out}`);
