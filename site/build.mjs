@@ -66,7 +66,13 @@ function markdown(source) {
 function page({ title, description, body, depth = 0, path = "", image = "preface-hero.png" }) {
   const prefix = depth ? "../".repeat(depth) : "./";
   const canonical = `${baseUrl}/${path}`;
-  const location = path === "preface/" ? " → 序言" : path === "chapters/01/" ? " → 第一章" : path === "chapters/02/" ? " → 第二章" : "";
+  const chapterLocation = path.match(/^chapters\/(\d{2})\/$/);
+  const chineseChapterNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
+  const location = path === "preface/"
+    ? " → 序言"
+    : chapterLocation
+      ? ` → 第${chineseChapterNumbers[Number(chapterLocation[1]) - 1]}章`
+      : "";
   return `<!doctype html>
 <html lang="zh-CN">
 <head>
@@ -149,7 +155,7 @@ const chapterTwoBody = `<main class="article-shell"><article>
   <figure class="chapter-image chapter-structure-image"><a class="chapter-image-link" href="../../assets/chapter-two-structure-v1.png"><img src="../../assets/chapter-two-structure-v1.png" alt="第二章内容与论证结构：生存条件、共同劳动、共同占有、氏族组织与公共事务"></a><figcaption>第二章的主要内容与论证结构　·　<a href="../../assets/chapter-two-structure-v1.png">打开横版大图</a>　·　<a href="../../assets/chapter-two-wechat-qrcode-v1.png">下载朋友圈竖版图</a></figcaption></figure>
   <div class="text-edition-heading"><span>正文</span></div>
   <div class="prose marxists-prose">${markdown(chapterTwoContent)}</div>
-  <aside class="forthcoming"><a href="../01/index.html">上一篇：第一章｜人猿相揖别</a>　｜　第三章完成公开校订后发布。</aside>
+  <aside class="forthcoming"><a href="../01/index.html">上一篇：第一章｜人猿相揖别</a>　｜　<a href="../03/index.html">下一篇：第三章｜铜铁炉中翻火焰</a></aside>
 </article></main>`;
 await mkdir(join(out, "chapters", "02"), { recursive: true });
 await writeFile(join(out, "chapters", "02", "index.html"), page({
@@ -161,25 +167,60 @@ await writeFile(join(out, "chapters", "02", "index.html"), page({
   image: "chapter-two-structure-v1.png",
 }));
 
+const laterChapters = [
+  ["03", "三", "第三章｜铜铁炉中翻火焰——生产力怎样撕开共同体.md", "铜铁炉中翻火焰", "生产力怎样撕开共同体"],
+  ["04", "四", "第四章｜不过几千寒热——财产怎样进入家庭.md", "不过几千寒热", "财产怎样进入家庭"],
+  ["05", "五", "第五章｜人世难逢开口笑——私有制怎样创造阶级.md", "人世难逢开口笑", "私有制怎样创造阶级"],
+  ["06", "六", "第六章｜上疆场彼此弯弓月——阶级矛盾与国家的诞生.md", "上疆场彼此弯弓月", "阶级矛盾与国家的诞生"],
+  ["07", "七", "第七章｜流遍了，郊原血——文明究竟意味着什么.md", "流遍了，郊原血", "文明究竟意味着什么"],
+  ["08", "八", "第八章｜五帝三皇神圣事——究竟是谁创造了历史.md", "五帝三皇神圣事", "究竟是谁创造了历史"],
+  ["09", "九", "第九章｜歌未竟，东方白——家庭、私有制和国家会走向哪里.md", "歌未竟，东方白", "家庭、私有制和国家会走向哪里"],
+];
+
+for (const [slug, numberName, file, poeticTitle, subtitle] of laterChapters) {
+  const source = await readFile(join(root, file), "utf8");
+  const content = source.split("\n").slice(1).join("\n");
+  const index = Number(slug) - 1;
+  const previous = index === 2 ? ["02", "二", "只几个石头磨过"] : laterChapters[index - 3];
+  const next = laterChapters[index - 1];
+  const navigation = `<aside class="forthcoming"><a href="../${previous[0]}/index.html">上一篇：第${previous[1]}章｜${previous[3] ?? previous[2]}</a>${next ? `　｜　<a href="../${next[0]}/index.html">下一篇：第${next[1]}章｜${next[3]}</a>` : ""}</aside>`;
+  const body = `<main class="article-shell"><article>
+  <header class="article-header"><h1>第${numberName}章｜${poeticTitle}</h1><p class="subtitle">${subtitle}</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
+  <div class="text-edition-heading"><span>正文</span></div>
+  <div class="prose marxists-prose">${markdown(content)}</div>
+  ${navigation}
+</article></main>`;
+  const firstParagraph = content.split(/\n\s*\n/).find((part) => part.trim() && !part.trim().startsWith(">"))?.replace(/[#>*_`]/g, "").replace(/<br>/g, " ").trim() ?? subtitle;
+  const dir = join(out, "chapters", slug);
+  await mkdir(dir, { recursive: true });
+  await writeFile(join(dir, "index.html"), page({
+    title: `第${numberName}章｜${poeticTitle}——${subtitle}`,
+    description: firstParagraph.slice(0, 150),
+    body,
+    depth: 2,
+    path: `chapters/${slug}/`,
+  }));
+}
+
 const indexBody = `<main>
   <section class="archive-home">
     <header class="article-header"><h1>《贺新郎·读史》新解</h1><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
     <div class="introduction">
       <p>文章围绕《家庭、私有制和国家的起源》与《贺新郎·读史》展开。从“人猿相揖别”到“歌未竟，东方白”，讨论劳动、共同体、家庭、私有制、阶级、国家与人的解放。</p>
-      <p>这些文章从制度怎样产生、怎样取得历史根据、又怎样显露自身界限的问题出发。文章以经典原著和历史过程为主要线索，序言、第一章与第二章已经发布，后续章节将在校订后陆续更新。</p>
+      <p>这些文章从制度怎样产生、怎样取得历史根据、又怎样显露自身界限的问题出发。文章以经典原著和历史过程为主要线索，序言与九章现已全部发布。</p>
     </div>
     <h2>目录</h2>
     <ul class="archive-list">
       <li><span class="entry-number">序言</span><a href="preface/index.html">《贺新郎·读史》新解的写作缘起与问题意识</a><span class="status published">已发布</span></li>
       <li><span class="entry-number">第一章</span><a href="chapters/01/index.html">人猿相揖别——人是怎样成为人的</a><span class="status published">已发布</span></li>
       <li><span class="entry-number">第二章</span><a href="chapters/02/index.html">只几个石头磨过——生产力低下时代的共同体</a><span class="status published">已发布</span></li>
-      <li><span class="entry-number">第三章</span><span class="entry-title">铜铁炉中翻火焰——生产力怎样撕开共同体</span><span class="status">待发布</span></li>
-      <li><span class="entry-number">第四章</span><span class="entry-title">不过几千寒热——财产怎样进入家庭</span><span class="status">待发布</span></li>
-      <li><span class="entry-number">第五章</span><span class="entry-title">人世难逢开口笑——私有制怎样创造阶级</span><span class="status">待发布</span></li>
-      <li><span class="entry-number">第六章</span><span class="entry-title">上疆场彼此弯弓月——阶级矛盾与国家的诞生</span><span class="status">待发布</span></li>
-      <li><span class="entry-number">第七章</span><span class="entry-title">流遍了，郊原血——文明究竟意味着什么</span><span class="status">待发布</span></li>
-      <li><span class="entry-number">第八章</span><span class="entry-title">五帝三皇神圣事——究竟是谁创造了历史</span><span class="status">待发布</span></li>
-      <li><span class="entry-number">第九章</span><span class="entry-title">歌未竟，东方白——家庭、私有制和国家会走向哪里</span><span class="status">待发布</span></li>
+      <li><span class="entry-number">第三章</span><a href="chapters/03/index.html">铜铁炉中翻火焰——生产力怎样撕开共同体</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">第四章</span><a href="chapters/04/index.html">不过几千寒热——财产怎样进入家庭</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">第五章</span><a href="chapters/05/index.html">人世难逢开口笑——私有制怎样创造阶级</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">第六章</span><a href="chapters/06/index.html">上疆场彼此弯弓月——阶级矛盾与国家的诞生</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">第七章</span><a href="chapters/07/index.html">流遍了，郊原血——文明究竟意味着什么</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">第八章</span><a href="chapters/08/index.html">五帝三皇神圣事——究竟是谁创造了历史</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">第九章</span><a href="chapters/09/index.html">歌未竟，东方白——家庭、私有制和国家会走向哪里</a><span class="status published">已发布</span></li>
     </ul>
   </section>
 </main>`;
@@ -187,5 +228,5 @@ const indexBody = `<main>
 await writeFile(join(out, "index.html"), page({ title: "首页", description: "《贺新郎·读史》新解：一组关于劳动、家庭、私有制、阶级、国家与人的解放的文章。", body: indexBody }));
 await writeFile(join(out, "404.html"), page({ title: "页面未找到", description: "页面未找到", body: '<main class="not-found"><p class="eyebrow">404</p><h1>这一页尚未写入历史</h1><a class="button" href="./index.html">返回首页</a></main>' }));
 await writeFile(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${baseUrl}/sitemap.xml\n`);
-await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url><url><loc>${baseUrl}/chapters/01/</loc></url><url><loc>${baseUrl}/chapters/02/</loc></url></urlset>`);
-console.log(`Built the preface and two chapter releases in ${out}`);
+await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url>${Array.from({ length: 9 }, (_, index) => `<url><loc>${baseUrl}/chapters/${String(index + 1).padStart(2, "0")}/</loc></url>`).join("")}</urlset>`);
+console.log(`Built the preface and nine chapter releases in ${out}`);
