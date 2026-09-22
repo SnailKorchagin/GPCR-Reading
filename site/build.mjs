@@ -54,7 +54,7 @@ function markdown(source) {
       continue;
     }
     if (line.trim() === "---") { flush(); output.push("<hr>"); continue; }
-    if (line.startsWith("> ")) { flushParagraph(); flushList(); quote.push(line.slice(2).trim()); continue; }
+    if (/^>(?: |$)/.test(line)) { flushParagraph(); flushList(); quote.push(line.slice(1).trim()); continue; }
     const numbered = line.match(/^\d+\.\s+(.*)$/);
     if (numbered) { flushParagraph(); flushQuote(); list.push(numbered[1]); continue; }
     paragraph.push(line.trim());
