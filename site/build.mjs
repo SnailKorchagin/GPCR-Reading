@@ -70,6 +70,8 @@ function page({ title, description, body, depth = 0, path = "", image = "preface
   const chineseChapterNumbers = ["一", "二", "三", "四", "五", "六", "七", "八", "九"];
   const location = path === "preface/"
     ? " → 序言"
+    : path === "afterword/"
+      ? " → 后记"
     : chapterLocation
       ? ` → 第${chineseChapterNumbers[Number(chapterLocation[1]) - 1]}章`
       : "";
@@ -183,7 +185,7 @@ for (const [slug, numberName, file, poeticTitle, subtitle] of laterChapters) {
   const index = Number(slug) - 1;
   const previous = index === 2 ? ["02", "二", "只几个石头磨过"] : laterChapters[index - 3];
   const next = laterChapters[index - 1];
-  const navigation = `<aside class="forthcoming"><a href="../${previous[0]}/index.html">上一篇：第${previous[1]}章｜${previous[3] ?? previous[2]}</a>${next ? `　｜　<a href="../${next[0]}/index.html">下一篇：第${next[1]}章｜${next[3]}</a>` : ""}</aside>`;
+  const navigation = `<aside class="forthcoming"><a href="../${previous[0]}/index.html">上一篇：第${previous[1]}章｜${previous[3] ?? previous[2]}</a>${next ? `　｜　<a href="../${next[0]}/index.html">下一篇：第${next[1]}章｜${next[3]}</a>` : `　｜　<a href="../../afterword/index.html">下一篇：后记｜当坚冰还盖着北海的时候，我看到了怒放的梅花</a>`}</aside>`;
   const body = `<main class="article-shell"><article>
   <header class="article-header"><h1>第${numberName}章｜${poeticTitle}</h1><p class="subtitle">${subtitle}</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
   <div class="text-edition-heading"><span>正文</span></div>
@@ -201,6 +203,23 @@ for (const [slug, numberName, file, poeticTitle, subtitle] of laterChapters) {
     path: `chapters/${slug}/`,
   }));
 }
+
+const afterwordSource = await readFile(join(root, "后记｜当坚冰还盖着北海的时候，我看到了怒放的梅花.md"), "utf8");
+const afterwordContent = afterwordSource.split("\n").slice(1).join("\n");
+const afterwordBody = `<main class="article-shell"><article>
+  <header class="article-header"><h1>后记</h1><p class="subtitle">当坚冰还盖着北海的时候，我看到了怒放的梅花</p><p class="byline">作者：小蜗H快跑　｜　写作辅助：ChatGPT</p></header>
+  <div class="text-edition-heading"><span>正文</span></div>
+  <div class="prose marxists-prose">${markdown(afterwordContent)}</div>
+  <aside class="forthcoming"><a href="../chapters/09/index.html">上一篇：第九章｜歌未竟，东方白</a></aside>
+</article></main>`;
+await mkdir(join(out, "afterword"), { recursive: true });
+await writeFile(join(out, "afterword", "index.html"), page({
+  title: "后记｜当坚冰还盖着北海的时候，我看到了怒放的梅花",
+  description: "《家庭、私有制和国家的起源》五年重读后记：从批判既有秩序，到在矛盾中缓慢而坚定地前进。",
+  body: afterwordBody,
+  depth: 1,
+  path: "afterword/",
+}));
 
 const indexBody = `<main>
   <section class="archive-home">
@@ -221,6 +240,7 @@ const indexBody = `<main>
       <li><span class="entry-number">第七章</span><a href="chapters/07/index.html">流遍了，郊原血——文明究竟意味着什么</a><span class="status published">已发布</span></li>
       <li><span class="entry-number">第八章</span><a href="chapters/08/index.html">五帝三皇神圣事——究竟是谁创造了历史</a><span class="status published">已发布</span></li>
       <li><span class="entry-number">第九章</span><a href="chapters/09/index.html">歌未竟，东方白——家庭、私有制和国家会走向哪里</a><span class="status published">已发布</span></li>
+      <li><span class="entry-number">后记</span><a href="afterword/index.html">当坚冰还盖着北海的时候，我看到了怒放的梅花</a><span class="status published">已发布</span></li>
     </ul>
   </section>
 </main>`;
@@ -228,5 +248,5 @@ const indexBody = `<main>
 await writeFile(join(out, "index.html"), page({ title: "首页", description: "《贺新郎·读史》新解：一组关于劳动、家庭、私有制、阶级、国家与人的解放的文章。", body: indexBody }));
 await writeFile(join(out, "404.html"), page({ title: "页面未找到", description: "页面未找到", body: '<main class="not-found"><p class="eyebrow">404</p><h1>这一页尚未写入历史</h1><a class="button" href="./index.html">返回首页</a></main>' }));
 await writeFile(join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${baseUrl}/sitemap.xml\n`);
-await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url>${Array.from({ length: 9 }, (_, index) => `<url><loc>${baseUrl}/chapters/${String(index + 1).padStart(2, "0")}/</loc></url>`).join("")}</urlset>`);
-console.log(`Built the preface and nine chapter releases in ${out}`);
+await writeFile(join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${baseUrl}/</loc></url><url><loc>${baseUrl}/preface/</loc></url>${Array.from({ length: 9 }, (_, index) => `<url><loc>${baseUrl}/chapters/${String(index + 1).padStart(2, "0")}/</loc></url>`).join("")}<url><loc>${baseUrl}/afterword/</loc></url></urlset>`);
+console.log(`Built the preface, nine chapters, and afterword in ${out}`);
